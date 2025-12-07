@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Games - Panini</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .game-card h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #f7971e, #ffd200);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        
+        .back-btn {
+            background: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Mini Games</h1>
+            <div>
+                <span>Coins: <span id="coins">100</span></span>
+                <button onclick="window.location.href='index.html'" class="btn back-btn">← Back to Album</button>
+            </div>
+        </header>
+        
+        <div class="games-grid">
+            <!-- Coin Catcher -->
+            <div class="game-card">
+                <h2>COIN CATCHER</h2>
+                <div>14/30 | 40 SEC | 252 GH/s</div>
+                <p>Catch falling coins to earn rewards!</p>
+                <button class="btn" onclick="playGame('coin-catcher')">Play</button>
+            </div>
+            
+            <!-- Match-3 Puzzle -->
+            <div class="game-card">
+                <h2>MATCH-3 COIN PUZZLE</h2>
+                <div>20/30 | 60 SEC | 293 GH/s</div>
+                <p>Match coins to solve puzzles!</p>
+                <button class="btn" onclick="playGame('match3')">Play</button>
+            </div>
+            
+            <!-- Crypto 2048 -->
+            <div class="game-card">
+                <h2>CRYPTO 2048</h2>
+                <div>1/30 | 120 SEC | 240 GH/s</div>
+                <p>Combine crypto blocks to 2048!</p>
+                <button class="btn" onclick="playGame('2048')">Play</button>
+            </div>
+        </div>
+        
+        <div id="gameArea" style="margin-top: 30px; display: none;">
+            <!-- Game will load here -->
+        </div>
+    </div>
+    
+    <script>
+        // Simple games page script
+        function playGame(gameType) {
+            const gameArea = document.getElementById('gameArea');
+            gameArea.style.display = 'block';
+            
+            let gameHTML = '';
+            
+            switch(gameType) {
+                case 'coin-catcher':
+                    gameHTML = `
+                        <div class="game-card">
+                            <h2>Coin Catcher (Demo)</h2>
+                            <p>Game coming soon! For now, here's 25 coins!</p>
+                            <button class="btn" onclick="earnCoins(25)">Collect 25 Coins</button>
+                        </div>
+                    `;
+                    break;
+                case 'match3':
+                    gameHTML = `
+                        <div class="game-card">
+                            <h2>Match-3 (Demo)</h2>
+                            <p>Game coming soon! For now, here's 30 coins!</p>
+                            <button class="btn" onclick="earnCoins(30)">Collect 30 Coins</button>
+                        </div>
+                    `;
+                    break;
+                case '2048':
+                    gameHTML = `
+                        <div class="game-card">
+                            <h2>Crypto 2048 (Demo)</h2>
+                            <p>Game coming soon! For now, here's 50 coins!</p>
+                            <button class="btn" onclick="earnCoins(50)">Collect 50 Coins</button>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            gameArea.innerHTML = gameHTML;
+        }
+        
+        function earnCoins(amount) {
+            // Update coins display
+            const coinsElement = document.getElementById('coins');
+            let currentCoins = parseInt(coinsElement.textContent);
+            currentCoins += amount;
+            coinsElement.textContent = currentCoins;
+            
+            // Save to localStorage
+            localStorage.setItem('coins', currentCoins);
+            
+            alert(`You earned ${amount} coins!`);
+        }
+        
+        // Load coins from localStorage on page load
+        window.onload = function() {
+            const savedCoins = localStorage.getItem('coins');
+            if (savedCoins) {
+                document.getElementById('coins').textContent = savedCoins;
+            }
+        };
+    </script>
+</body>
+</html>
